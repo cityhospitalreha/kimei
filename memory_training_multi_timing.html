@@ -1,0 +1,546 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.app{padding:1rem 0;max-width:640px;margin:0 auto}
+.screen{display:none}.screen.active{display:block}
+
+.phase-bar{display:flex;align-items:center;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
+.phase-dot{width:8px;height:8px;border-radius:50%;background:var(--color-border-tertiary);flex-shrink:0;transition:background .2s}
+.phase-dot.done{background:#1d9e75}
+.phase-dot.active{background:#1d9e75;width:24px;border-radius:4px}
+.phase-label{font-size:13px;color:var(--color-text-secondary)}
+
+.section-title{font-size:11px;font-weight:500;letter-spacing:.08em;color:var(--color-text-tertiary);margin-bottom:8px;text-transform:uppercase}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:.75rem}
+
+.chip-group{display:flex;gap:6px;flex-wrap:wrap}
+.chip{padding:6px 14px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:13px;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
+.chip:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.chip.on{background:#E1F5EE;border-color:#1d9e75;color:#085041;font-weight:500}
+
+.time-chip-group{display:flex;gap:6px;flex-wrap:wrap}
+.time-chip{padding:6px 14px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:13px;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:4px}
+.time-chip:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.time-chip.on{background:#E6F1FB;border-color:#185FA5;color:#0C447C;font-weight:500}
+.time-chip .order-badge{display:none;font-size:11px;background:#185FA5;color:#fff;border-radius:10px;padding:1px 6px;font-weight:500}
+.time-chip.on .order-badge{display:inline}
+
+.timing-preview{display:flex;align-items:center;gap:6px;margin-top:10px;flex-wrap:wrap;min-height:24px}
+.timing-preview .tp-item{font-size:12px;padding:3px 10px;border-radius:20px;background:#E6F1FB;color:#0C447C;display:flex;align-items:center;gap:4px}
+.timing-preview .tp-arrow{font-size:12px;color:var(--color-text-tertiary)}
+
+.word-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin:1rem 0}
+.wcard{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem;text-align:center;min-height:88px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.wcard .em{font-size:30px;line-height:1}
+.wcard .lbl{font-size:15px;font-weight:500;color:var(--color-text-primary)}
+.wcard.masked .em,.wcard.masked .lbl{display:none}
+.wcard .mbox{width:100%;height:40px;background:var(--color-border-tertiary);border-radius:var(--border-radius-md);display:none}
+.wcard.masked .mbox{display:block}
+
+.timer-block{display:flex;align-items:center;gap:16px;background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin:1rem 0}
+.timer-num{font-size:32px;font-weight:500;color:#1d9e75;font-variant-numeric:tabular-nums;min-width:90px}
+
+.round-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:.5rem}
+.round-badge{font-size:12px;padding:4px 12px;border-radius:20px;background:#E6F1FB;color:#0C447C;font-weight:500}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;cursor:pointer;font-size:14px;color:var(--color-text-primary);transition:all .15s}
+.btn:hover{background:var(--color-background-secondary)}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:#1d9e75;color:#fff;border-color:#1d9e75}
+.btn-primary:hover{background:#0f6e56;border-color:#0f6e56}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:1.25rem}
+
+.eval-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.eval-item:last-child{border-bottom:none}
+.eval-word{font-size:14px;font-weight:500;flex:1;cursor:pointer;color:#185FA5;text-decoration:underline}
+.eval-word.revealed{color:var(--color-text-primary);text-decoration:none;cursor:default}
+.eval-btns{display:flex;gap:6px;flex-shrink:0}
+.eval-btn{padding:5px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:13px;color:var(--color-text-secondary);transition:all .15s}
+.eval-btn:hover{background:var(--color-background-secondary)}
+.eval-btn.yes{background:#E1F5EE;border-color:#1d9e75;color:#085041;font-weight:500}
+.eval-btn.no{background:#FCEBEB;border-color:#E24B4A;color:#791F1F;font-weight:500}
+
+.hint-item{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:.75rem 1rem;margin-bottom:8px}
+.hint-item.resolved{opacity:.5}
+.hint-cat{font-size:12px;color:var(--color-text-secondary);margin-bottom:6px}
+.hint-btns{display:flex;gap:6px;flex-wrap:wrap}
+.hint-text{font-size:13px;color:#185FA5;margin-top:6px;padding:6px 10px;background:#E6F1FB;border-radius:var(--border-radius-md)}
+
+.recog-item{padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.recog-item:last-child{border-bottom:none}
+.recog-q{font-size:13px;color:var(--color-text-secondary);margin-bottom:8px}
+.recog-choices{display:flex;gap:6px;flex-wrap:wrap}
+.rchoice{padding:6px 14px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:13px;transition:all .15s}
+.rchoice:hover{background:var(--color-background-secondary)}
+.rchoice.correct{background:#E1F5EE;border-color:#1d9e75;color:#085041;font-weight:500}
+.rchoice.wrong{background:#FCEBEB;border-color:#E24B4A;color:#791F1F}
+
+.result-rounds{display:flex;flex-direction:column;gap:.75rem;margin-bottom:.75rem}
+.result-round-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden}
+.result-round-header{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;background:var(--color-background-secondary);font-size:13px;font-weight:500}
+.result-round-body{padding:.75rem 1rem}
+.result-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:14px}
+.result-row:last-child{border-bottom:none}
+.badge{display:inline-flex;align-items:center;gap:3px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500}
+.b-green{background:#E1F5EE;color:#085041}
+.b-blue{background:#E6F1FB;color:#0C447C}
+.b-amber{background:#FAEEDA;color:#633806}
+.b-red{background:#FCEBEB;color:#791F1F}
+.b-gray{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:.75rem}
+.scard{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.75rem;text-align:center}
+.scard-n{font-size:20px;font-weight:500}
+.scard-l{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+
+.progress-hint{font-size:12px;color:var(--color-text-tertiary);padding:6px 0}
+</style>
+
+<div class="app">
+
+<!-- S0 条件設定 -->
+<div class="screen active" id="s0">
+  <div class="card">
+    <div class="section-title">語数</div>
+    <div class="chip-group">
+      <button class="chip" onclick="sel('count',1,this)">1語</button>
+      <button class="chip on" onclick="sel('count',3,this)">3語</button>
+      <button class="chip" onclick="sel('count',5,this)">5語</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-title">保持時間（複数選択可・順番に確認）</div>
+    <div class="time-chip-group" id="tcg">
+      <button class="time-chip" onclick="toggleTime(30,this)"><span class="order-badge" id="ob30"></span>30秒</button>
+      <button class="time-chip" onclick="toggleTime(60,this)"><span class="order-badge" id="ob60"></span>1分</button>
+      <button class="time-chip" onclick="toggleTime(180,this)"><span class="order-badge" id="ob180"></span>3分</button>
+      <button class="time-chip" onclick="toggleTime(300,this)"><span class="order-badge" id="ob300"></span>5分</button>
+      <button class="time-chip" onclick="toggleTime(600,this)"><span class="order-badge" id="ob600"></span>10分</button>
+      <button class="time-chip" onclick="toggleTime(1800,this)"><span class="order-badge" id="ob1800"></span>30分</button>
+      <button class="time-chip" onclick="toggleTime(3600,this)"><span class="order-badge" id="ob3600"></span>1時間</button>
+    </div>
+    <div class="timing-preview" id="timingPreview"></div>
+  </div>
+  <div class="card">
+    <div class="section-title">カテゴリ</div>
+    <div class="chip-group">
+      <button class="chip on" onclick="sel('cat','random',this)">ランダム</button>
+      <button class="chip" onclick="sel('cat','food',this)">食べ物</button>
+      <button class="chip" onclick="sel('cat','animal',this)">動物</button>
+      <button class="chip" onclick="sel('cat','daily',this)">日用品</button>
+      <button class="chip" onclick="sel('cat','furniture',this)">家具</button>
+      <button class="chip" onclick="sel('cat','vehicle',this)">乗り物</button>
+      <button class="chip" onclick="sel('cat','body',this)">身体部位</button>
+      <button class="chip" onclick="sel('cat','hospital',this)">病院</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-title">難易度</div>
+    <div class="chip-group">
+      <button class="chip on" onclick="sel('diff','easy',this)">易（カテゴリ分散）</button>
+      <button class="chip" onclick="sel('diff','normal',this)">普通</button>
+      <button class="chip" onclick="sel('diff','hard',this)">難（意味類似）</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-title">表示形式</div>
+    <div class="chip-group">
+      <button class="chip on" onclick="sel('disp','both',this)">イラスト＋文字</button>
+      <button class="chip" onclick="sel('disp','emoji',this)">イラストのみ</button>
+      <button class="chip" onclick="sel('disp','text',this)">文字のみ</button>
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="startApp()"><i class="ti ti-player-play" aria-hidden="true"></i> 開始</button>
+  </div>
+</div>
+
+<!-- S1 記銘 -->
+<div class="screen" id="s1">
+  <div class="phase-bar" id="pb1"></div>
+  <div class="word-grid" id="learnGrid"></div>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="endLearn()"><i class="ti ti-check" aria-hidden="true"></i> 記銘終了</button>
+  </div>
+</div>
+
+<!-- S2 保持 -->
+<div class="screen" id="s2">
+  <div class="phase-bar" id="pb2"></div>
+  <div class="timer-block">
+    <div class="timer-num" id="timerDisp">--:--</div>
+    <div>
+      <div style="font-size:14px;font-weight:500;color:var(--color-text-primary)" id="timerRoundLabel">記憶保持中</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-top:3px" id="timerSubLabel">内容はマスクされています</div>
+      <div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">他のタブへ移動してもタイマーは継続します</div>
+    </div>
+  </div>
+  <div class="word-grid" id="maskGrid"></div>
+  <div id="recallBtnRow" style="display:none" class="btn-row">
+    <button class="btn btn-primary" id="recallBtn" onclick="goToRecall()"><i class="ti ti-arrow-right" aria-hidden="true"></i> 自由再生へ</button>
+  </div>
+</div>
+
+<!-- S3 自由再生 -->
+<div class="screen" id="s3">
+  <div class="phase-bar" id="pb3"></div>
+  <div class="round-header">
+    <div class="round-badge" id="roundBadge3"></div>
+  </div>
+  <div class="word-grid" id="freeGrid"></div>
+  <div style="font-size:13px;color:var(--color-text-secondary);margin-top:.25rem">覚えていたものを口頭で答えてください。</div>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="goToEval()"><i class="ti ti-arrow-right" aria-hidden="true"></i> 答え合わせへ</button>
+  </div>
+</div>
+
+<!-- S4 答え合わせ -->
+<div class="screen" id="s4">
+  <div class="phase-bar" id="pb4"></div>
+  <div class="round-header">
+    <div class="round-badge" id="roundBadge4"></div>
+  </div>
+  <div class="card"><div id="evalRows"></div></div>
+  <div class="btn-row">
+    <button class="btn" onclick="revealAll()"><i class="ti ti-eye" aria-hidden="true"></i> 全開示</button>
+    <button class="btn btn-primary" onclick="goToHint()"><i class="ti ti-arrow-right" aria-hidden="true"></i> ヒントへ</button>
+  </div>
+</div>
+
+<!-- S5 ヒント -->
+<div class="screen" id="s5">
+  <div class="phase-bar" id="pb5"></div>
+  <div class="round-header">
+    <div class="round-badge" id="roundBadge5"></div>
+  </div>
+  <div id="hintRows"></div>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="goToRecog()"><i class="ti ti-arrow-right" aria-hidden="true"></i> 再認へ</button>
+  </div>
+</div>
+
+<!-- S6 再認 -->
+<div class="screen" id="s6">
+  <div class="phase-bar" id="pb6"></div>
+  <div class="round-header">
+    <div class="round-badge" id="roundBadge6"></div>
+  </div>
+  <div class="card"><div id="recogRows"></div></div>
+  <div class="btn-row">
+    <button class="btn btn-primary" id="nextRoundBtn" onclick="nextRound()"></button>
+  </div>
+</div>
+
+<!-- S7 結果 -->
+<div class="screen" id="s7">
+  <div class="phase-bar" id="pb7"></div>
+  <div class="summary-grid" id="summaryGrid"></div>
+  <div class="result-rounds" id="resultRounds"></div>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="restart()"><i class="ti ti-refresh" aria-hidden="true"></i> 最初から</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+const DB={
+  food:[{e:'🍎',w:'りんご',cat:'食べ物',h:'り'},{e:'🍌',w:'バナナ',cat:'食べ物',h:'バ'},{e:'🍙',w:'おにぎり',cat:'食べ物',h:'お'},{e:'🍜',w:'ラーメン',cat:'食べ物',h:'ラ'},{e:'🥚',w:'たまご',cat:'食べ物',h:'た'},{e:'🍞',w:'パン',cat:'食べ物',h:'パ'},{e:'🍊',w:'みかん',cat:'食べ物',h:'み'},{e:'🥕',w:'にんじん',cat:'食べ物',h:'に'}],
+  animal:[{e:'🐶',w:'いぬ',cat:'動物',h:'い'},{e:'🐱',w:'ねこ',cat:'動物',h:'ね'},{e:'🐦',w:'とり',cat:'動物',h:'と'},{e:'🐟',w:'さかな',cat:'動物',h:'さ'},{e:'🐘',w:'ぞう',cat:'動物',h:'ぞ'},{e:'🐢',w:'かめ',cat:'動物',h:'か'},{e:'🐰',w:'うさぎ',cat:'動物',h:'う'},{e:'🦁',w:'らいおん',cat:'動物',h:'ら'}],
+  daily:[{e:'🪥',w:'はみがき',cat:'日用品',h:'は'},{e:'🧴',w:'シャンプー',cat:'日用品',h:'シ'},{e:'🪞',w:'かがみ',cat:'日用品',h:'か'},{e:'🧹',w:'ほうき',cat:'日用品',h:'ほ'},{e:'⏰',w:'めざまし',cat:'日用品',h:'め'},{e:'☂️',w:'かさ',cat:'日用品',h:'か'},{e:'🧺',w:'かご',cat:'日用品',h:'か'},{e:'🔑',w:'かぎ',cat:'日用品',h:'か'}],
+  furniture:[{e:'🪑',w:'いす',cat:'家具',h:'い'},{e:'🛏️',w:'ベッド',cat:'家具',h:'ベ'},{e:'🪟',w:'まど',cat:'家具',h:'ま'},{e:'🚪',w:'ドア',cat:'家具',h:'ド'},{e:'🛋️',w:'ソファ',cat:'家具',h:'ソ'},{e:'📺',w:'テレビ',cat:'家具',h:'テ'},{e:'💡',w:'でんき',cat:'家具',h:'で'},{e:'🪴',w:'うえき',cat:'家具',h:'う'}],
+  vehicle:[{e:'🚗',w:'くるま',cat:'乗り物',h:'く'},{e:'🚌',w:'バス',cat:'乗り物',h:'バ'},{e:'🚲',w:'じてんしゃ',cat:'乗り物',h:'じ'},{e:'✈️',w:'ひこうき',cat:'乗り物',h:'ひ'},{e:'🚢',w:'ふね',cat:'乗り物',h:'ふ'},{e:'🚑',w:'きゅうきゅうしゃ',cat:'乗り物',h:'き'},{e:'🛵',w:'バイク',cat:'乗り物',h:'バ'},{e:'🚂',w:'きしゃ',cat:'乗り物',h:'き'}],
+  body:[{e:'👁️',w:'め',cat:'身体部位',h:'め'},{e:'👂',w:'みみ',cat:'身体部位',h:'み'},{e:'👃',w:'はな',cat:'身体部位',h:'は'},{e:'✋',w:'て',cat:'身体部位',h:'て'},{e:'🦶',w:'あし',cat:'身体部位',h:'あ'},{e:'🦷',w:'は',cat:'身体部位',h:'は'},{e:'💋',w:'くち',cat:'身体部位',h:'く'},{e:'❤️',w:'こころ',cat:'身体部位',h:'こ'}],
+  hospital:[{e:'💊',w:'くすり',cat:'病院',h:'く'},{e:'🩺',w:'ちょうしんき',cat:'病院',h:'ち'},{e:'🩹',w:'ばんそうこう',cat:'病院',h:'ば'},{e:'🛏️',w:'びょうしつ',cat:'病院',h:'び'},{e:'🍽️',w:'しょくじ',cat:'病院',h:'し'},{e:'📋',w:'カルテ',cat:'病院',h:'カ'},{e:'🧑‍⚕️',w:'かんごし',cat:'病院',h:'か'},{e:'🩻',w:'レントゲン',cat:'病院',h:'レ'}]
+};
+const ALL=Object.values(DB).flat();
+const TIME_LABELS={30:'30秒',60:'1分',180:'3分',300:'5分',600:'10分',1800:'30分',3600:'1時間'};
+
+let cfg={count:3,cat:'random',diff:'easy',disp:'both'};
+let selectedTimes=[];
+let words=[],timerInt=null,timerEnd=null;
+let rounds=[];
+let currentRoundIdx=0;
+
+function sel(key,val,el){
+  cfg[key]=val;
+  el.closest('.chip-group').querySelectorAll('.chip').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function toggleTime(sec,el){
+  const idx=selectedTimes.indexOf(sec);
+  if(idx>=0){selectedTimes.splice(idx,1);el.classList.remove('on');}
+  else{selectedTimes.push(sec);selectedTimes.sort((a,b)=>a-b);el.classList.add('on');}
+  updateTimeDisplay();
+}
+
+function updateTimeDisplay(){
+  selectedTimes.sort((a,b)=>a-b);
+  document.querySelectorAll('.time-chip').forEach(el=>{
+    const sec=parseInt(el.getAttribute('onclick').match(/\d+/)[0]);
+    const idx=selectedTimes.indexOf(sec);
+    const ob=document.getElementById('ob'+sec);
+    if(idx>=0){el.classList.add('on');ob.textContent=idx+1;}
+    else{el.classList.remove('on');ob.textContent='';}
+  });
+  const prev=document.getElementById('timingPreview');
+  if(!selectedTimes.length){prev.innerHTML='';return;}
+  prev.innerHTML=selectedTimes.map((t,i)=>`
+    ${i>0?'<span class="tp-arrow">→</span>':''}
+    <span class="tp-item"><i class="ti ti-clock" style="font-size:12px" aria-hidden="true"></i>${TIME_LABELS[t]}</span>
+  `).join('');
+}
+
+function shuf(a){return a.slice().sort(()=>Math.random()-.5)}
+function selectWords(){
+  const keys=Object.keys(DB);
+  if(cfg.cat==='random'){
+    if(cfg.diff==='easy'){
+      const sc=shuf(keys);let res=[];
+      for(let i=0;i<cfg.count&&i<sc.length;i++)res.push(shuf(DB[sc[i]])[0]);
+      if(res.length<cfg.count)res=[...res,...shuf(ALL).filter(x=>!res.includes(x)).slice(0,cfg.count-res.length)];
+      return res.slice(0,cfg.count);
+    } else if(cfg.diff==='hard'){
+      const k=shuf(keys)[0];return shuf(DB[k]).slice(0,cfg.count);
+    } else return shuf(ALL).slice(0,cfg.count);
+  }
+  return shuf(DB[cfg.cat]||ALL).slice(0,cfg.count);
+}
+
+function wcard(w,masked){
+  const se=cfg.disp!=='text',st=cfg.disp!=='emoji';
+  if(masked)return`<div class="wcard masked"><div class="mbox"></div></div>`;
+  return`<div class="wcard">${se?`<span class="em">${w.e}</span>`:''} ${st?`<span class="lbl">${w.w}</span>`:''}</div>`;
+}
+
+function pbar(stepLabel){
+  const allSteps=['記銘','保持','自由再生','答え合わせ','ヒント','再認'];
+  const idx=allSteps.indexOf(stepLabel);
+  return allSteps.map((l,i)=>`<div class="phase-dot${i<idx?' done':i===idx?' active':''}"></div>`).join('')+`<div class="phase-label">${stepLabel}</div>`;
+}
+
+function setScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startApp(){
+  if(!selectedTimes.length){selectedTimes=[30];updateTimeDisplay();}
+  words=selectWords();
+  rounds=selectedTimes.map(t=>({
+    time:t,
+    scores:{},
+    done:false
+  }));
+  words.forEach(w=>rounds.forEach(r=>r.scores[w.w]={result:'miss',hintCat:false,hintHead:false}));
+  currentRoundIdx=0;
+  document.getElementById('learnGrid').innerHTML=words.map(w=>wcard(w,false)).join('');
+  document.getElementById('pb1').innerHTML=pbar('記銘');
+  setScreen('s1');
+}
+
+function endLearn(){
+  document.getElementById('maskGrid').innerHTML=words.map(w=>wcard(w,true)).join('');
+  startNextTimer();
+  setScreen('s2');
+}
+
+function startNextTimer(){
+  const r=rounds[currentRoundIdx];
+  const totalSec=r.time;
+  const prevSec=currentRoundIdx>0?rounds[currentRoundIdx-1].time:0;
+  const waitSec=totalSec-prevSec;
+  document.getElementById('pb2').innerHTML=pbar('保持');
+  document.getElementById('timerRoundLabel').textContent=`第${currentRoundIdx+1}回目 保持中（${TIME_LABELS[r.time]}）`;
+  document.getElementById('timerSubLabel').textContent=`あと${TIME_LABELS[waitSec]}で再生開始`;
+  document.getElementById('recallBtnRow').style.display='none';
+  if(timerInt)clearInterval(timerInt);
+  timerEnd=Date.now()+waitSec*1000;
+  timerInt=setInterval(()=>{
+    const rem=Math.max(0,timerEnd-Date.now());
+    const m=Math.floor(rem/60000),s=Math.floor((rem%60000)/1000);
+    document.getElementById('timerDisp').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    if(rem<=0){
+      clearInterval(timerInt);
+      document.getElementById('recallBtnRow').style.display='flex';
+      document.getElementById('timerDisp').textContent='00:00';
+    }
+  },500);
+}
+
+function roundLabel(){
+  return`第${currentRoundIdx+1}回目 / ${TIME_LABELS[rounds[currentRoundIdx].time]}後`;
+}
+
+function goToRecall(){
+  document.getElementById('pb3').innerHTML=pbar('自由再生');
+  document.getElementById('roundBadge3').textContent=roundLabel();
+  document.getElementById('freeGrid').innerHTML=words.map(w=>wcard(w,true)).join('');
+  setScreen('s3');
+}
+
+function goToEval(){
+  document.getElementById('pb4').innerHTML=pbar('答え合わせ');
+  document.getElementById('roundBadge4').textContent=roundLabel();
+  const r=rounds[currentRoundIdx];
+  document.getElementById('evalRows').innerHTML=words.map((w,i)=>`
+    <div class="eval-item">
+      <span class="eval-word" id="ew${i}" onclick="revealWord(${i})">タップして開示</span>
+      <div class="eval-btns">
+        <button class="eval-btn" id="ey${i}" onclick="markWord(${i},'free')">言えた</button>
+        <button class="eval-btn" id="en${i}" onclick="markWord(${i},'miss')">言えなかった</button>
+      </div>
+    </div>`).join('');
+  setScreen('s4');
+}
+
+function revealWord(i){
+  const el=document.getElementById('ew'+i);
+  const se=cfg.disp!=='text',st=cfg.disp!=='emoji';
+  el.textContent=(se?words[i].e+' ':'')+(st?words[i].w:'');
+  el.classList.add('revealed');el.onclick=null;
+}
+function revealAll(){words.forEach((_,i)=>revealWord(i));}
+function markWord(i,res){
+  rounds[currentRoundIdx].scores[words[i].w].result=res;
+  document.getElementById('ey'+i).className='eval-btn'+(res==='free'?' yes':'');
+  document.getElementById('en'+i).className='eval-btn'+(res==='miss'?' no':'');
+}
+
+function goToHint(){
+  document.getElementById('pb5').innerHTML=pbar('ヒント');
+  document.getElementById('roundBadge5').textContent=roundLabel();
+  const r=rounds[currentRoundIdx];
+  const missed=words.filter(w=>r.scores[w.w].result==='miss');
+  const el=document.getElementById('hintRows');
+  if(!missed.length){
+    el.innerHTML='<div style="font-size:14px;color:var(--color-text-secondary);padding:.5rem 0">ヒントが必要な語はありません。</div>';
+    setScreen('s5');return;
+  }
+  el.innerHTML=missed.map(w=>`
+    <div class="hint-item" id="hi_${currentRoundIdx}_${w.w}">
+      <div class="hint-cat">${w.cat}の語</div>
+      <div class="hint-btns">
+        <button class="btn" onclick="showCat(${currentRoundIdx},'${w.w}')"><i class="ti ti-tag" aria-hidden="true"></i> カテゴリ</button>
+        <button class="btn" onclick="showHead(${currentRoundIdx},'${w.w}')"><i class="ti ti-letter-a" aria-hidden="true"></i> 頭文字</button>
+        <button class="btn" onclick="hintOk(${currentRoundIdx},'${w.w}')"><i class="ti ti-check" aria-hidden="true"></i> 思い出せた</button>
+      </div>
+      <div class="hint-text" id="ht_${currentRoundIdx}_${w.w}" style="display:none"></div>
+    </div>`).join('');
+  setScreen('s5');
+}
+
+function showCat(ri,ww){
+  const w=words.find(x=>x.w===ww);
+  const el=document.getElementById(`ht_${ri}_${ww}`);
+  el.textContent=`「${w.cat}があります」`;el.style.display='block';
+  rounds[ri].scores[ww].hintCat=true;
+}
+function showHead(ri,ww){
+  const w=words.find(x=>x.w===ww);
+  const el=document.getElementById(`ht_${ri}_${ww}`);
+  el.textContent=`「${w.h}…」`;el.style.display='block';
+  rounds[ri].scores[ww].hintHead=true;
+}
+function hintOk(ri,ww){
+  const s=rounds[ri].scores[ww];
+  s.result=s.hintHead?'head':'cat';
+  const row=document.getElementById(`hi_${ri}_${ww}`);
+  row.classList.add('resolved');
+  row.insertAdjacentHTML('beforeend','<div style="margin-top:6px"><span class="badge b-blue"><i class="ti ti-check" style="font-size:12px" aria-hidden="true"></i> cue再生成功</span></div>');
+}
+
+function goToRecog(){
+  document.getElementById('pb6').innerHTML=pbar('再認');
+  document.getElementById('roundBadge6').textContent=roundLabel();
+  const r=rounds[currentRoundIdx];
+  const rem=words.filter(w=>r.scores[w.w].result==='miss');
+  const el=document.getElementById('recogRows');
+  if(!rem.length){
+    el.innerHTML='<div style="font-size:14px;color:var(--color-text-secondary);padding:.5rem 0">再認が必要な語はありません。</div>';
+  } else {
+    el.innerHTML=rem.map(w=>{
+      const dis=shuf(ALL.filter(x=>x.w!==w.w)).slice(0,3).map(x=>x.w);
+      const ch=shuf([w.w,...dis]);
+      return`<div class="recog-item">
+        <div class="recog-q">どれかにあります</div>
+        <div class="recog-choices">${ch.map(c=>`<button class="rchoice" onclick="pickR(${currentRoundIdx},'${w.w}','${c}',this)">${c}</button>`).join('')}</div>
+      </div>`;
+    }).join('');
+  }
+  const isLast=currentRoundIdx===rounds.length-1;
+  const btn=document.getElementById('nextRoundBtn');
+  btn.innerHTML=isLast
+    ?'<i class="ti ti-chart-bar" aria-hidden="true"></i> 結果へ'
+    :`<i class="ti ti-arrow-right" aria-hidden="true"></i> 次の保持へ（${TIME_LABELS[rounds[currentRoundIdx+1].time]}）`;
+  setScreen('s6');
+}
+
+function pickR(ri,target,chosen,btn){
+  const row=btn.closest('.recog-item');
+  row.querySelectorAll('.rchoice').forEach(b=>b.onclick=null);
+  if(chosen===target){btn.classList.add('correct');rounds[ri].scores[target].result='recog';}
+  else{
+    btn.classList.add('wrong');
+    row.querySelectorAll('.rchoice').forEach(b=>{if(b.textContent===target)b.classList.add('correct')});
+    rounds[ri].scores[target].result='recog_fail';
+  }
+}
+
+function nextRound(){
+  rounds[currentRoundIdx].done=true;
+  currentRoundIdx++;
+  if(currentRoundIdx>=rounds.length){buildResult();setScreen('s7');return;}
+  words.forEach(w=>{
+    const prev=rounds[currentRoundIdx-1].scores[w.w];
+    rounds[currentRoundIdx].scores[w.w]={result:'miss',hintCat:false,hintHead:false};
+  });
+  startNextTimer();
+  setScreen('s2');
+}
+
+const LM={free:'自由再生',cat:'カテゴリcue',head:'頭文字cue',recog:'再認成功',recog_fail:'再認不成功',miss:'未想起'};
+const CM={free:'b-green',cat:'b-blue',head:'b-blue',recog:'b-amber',recog_fail:'b-red',miss:'b-gray'};
+
+function buildResult(){
+  let totalFree=0,totalCue=0,totalRecog=0;
+  rounds.forEach(r=>{
+    words.forEach(w=>{
+      const v=r.scores[w.w].result;
+      if(v==='free')totalFree++;
+      else if(v==='cat'||v==='head')totalCue++;
+      else if(v==='recog')totalRecog++;
+    });
+  });
+  const tot=words.length*rounds.length;
+  document.getElementById('summaryGrid').innerHTML=`
+    <div class="scard"><div class="scard-n" style="color:#085041">${totalFree}</div><div class="scard-l">自由再生（延べ）</div></div>
+    <div class="scard"><div class="scard-n" style="color:#0C447C">${totalCue}</div><div class="scard-l">cue再生（延べ）</div></div>
+    <div class="scard"><div class="scard-n" style="color:#633806">${totalRecog}</div><div class="scard-l">再認成功（延べ）</div></div>`;
+  const se=cfg.disp!=='text',st=cfg.disp!=='emoji';
+  document.getElementById('resultRounds').innerHTML=rounds.map((r,ri)=>{
+    let f=0,c=0,rec=0,rf=0;
+    words.forEach(w=>{const v=r.scores[w.w].result;if(v==='free')f++;else if(v==='cat'||v==='head')c++;else if(v==='recog')rec++;else rf++;});
+    return`<div class="result-round-card">
+      <div class="result-round-header">
+        <span>第${ri+1}回目 — ${TIME_LABELS[r.time]}後</span>
+        <span style="font-size:12px;color:var(--color-text-secondary)">自由再生 ${f}/${words.length}</span>
+      </div>
+      <div class="result-round-body">
+        ${words.map(w=>`<div class="result-row">
+          <span>${se?w.e+' ':''}${st?w.w:''}</span>
+          <span class="badge ${CM[r.scores[w.w].result]}">${LM[r.scores[w.w].result]}</span>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('pb7').innerHTML=pbar('再認');
+}
+
+function restart(){
+  clearInterval(timerInt);
+  words=[];rounds=[];currentRoundIdx=0;
+  setScreen('s0');
+}
+</script>
