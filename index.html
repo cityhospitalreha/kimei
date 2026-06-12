@@ -169,6 +169,10 @@ body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto
 .hist-row-score{font-weight:600;flex-shrink:0;margin-left:8px}
 .hist-empty{font-size:13px;color:var(--color-text-tertiary);padding:8px 0}
 .hist-clear{font-size:11px;color:var(--color-text-tertiary);background:none;border:none;cursor:pointer;text-decoration:underline;padding:4px 0}
+
+/* 復元トースト（再開通知） */
+.restore-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1d9e75;color:#fff;font-size:13px;padding:10px 18px;border-radius:24px;box-shadow:0 4px 16px rgba(0,0,0,.18);display:flex;align-items:center;gap:6px;z-index:999;opacity:0;transition:opacity .3s ease;pointer-events:none}
+.restore-toast.show{opacity:1}
 </style>
 
 <div class="app">
@@ -473,6 +477,7 @@ function pbar(stepLabel){
 function setScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  saveSession();
 }
 
 function startApp(){
@@ -591,6 +596,7 @@ function markWord(i,res){
   if(ha)ha.classList.remove('open');
   const hb=document.getElementById('ehn'+i);
   if(hb)hb.classList.remove('hint-active');
+  saveSession();
 }
 
 function toggleHint(i){
@@ -626,6 +632,7 @@ function showHintCat(i){
   document.getElementById('hcat'+i).classList.add('used');
   document.getElementById('hcat'+i).disabled=true;
   updateHintActions(i);
+  saveSession();
 }
 
 function showHintHead(i){
@@ -641,6 +648,7 @@ function showHintHead(i){
   document.getElementById('hhead'+i).classList.add('used');
   document.getElementById('hhead'+i).disabled=true;
   updateHintActions(i);
+  saveSession();
 }
 
 function hintOkInline(i){
@@ -655,6 +663,7 @@ function hintOkInline(i){
   ha.classList.remove('open');
   document.getElementById('ehn'+i).classList.remove('hint-active');
   document.getElementById('ehn'+i).disabled=true;
+  saveSession();
 }
 
 function hintGoRecog(i){
@@ -691,6 +700,7 @@ function pickRecogInline(i,target,chosen,btn){
     document.getElementById('en'+i).className='eval-btn no';
   }
   document.getElementById('ehn'+i).disabled=true;
+  saveSession();
 }
 
 function goToRecog(){
@@ -728,6 +738,7 @@ function pickR(ri,target,chosen,btn){
     row.querySelectorAll('.rchoice').forEach(b=>{if(b.textContent===target)b.classList.add('correct')});
     rounds[ri].scores[target].result='recog_fail';
   }
+  saveSession();
 }
 
 function nextRound(){
@@ -857,14 +868,166 @@ function renderHistory(){
     </div>`;
 }
 
+// ===== セッション復元（途中状態の保存・復元） =====
+// iPadなどでPWAをバックグラウンドにすると、戻ってきた時に
+// ページが裏で再読み込みされ、記憶中のデータが消えてしまうことがある。
+// その対策として、進行状況をlocalStorageへ随時保存し、
+// 再読み込み時に同じ場所から再開できるようにする。
+const SESSION_KEY = 'memory_training_session';
+
+// 現在の進行状況を保存する
+function saveSession(){
+  try{
+    const activeEl = document.querySelector('.screen.active');
+    const screen = activeEl ? activeEl.id : 's0';
+    // 設定画面(s0)・結果画面(s7)は「途中」ではないので保存対象外
+    if(screen==='s0' || screen==='s7' || !words.length || !rounds.length){
+      localStorage.removeItem(SESSION_KEY);
+      return;
+    }
+    const data={cfg,selectedTimes,words,rounds,currentRoundIdx,timerEnd,screen};
+    localStorage.setItem(SESSION_KEY, JSON.stringify(data));
+  }catch(e){}
+}
+
+// 保存済みの進行状況を削除する
+function clearSession(){
+  try{ localStorage.removeItem(SESSION_KEY); }catch(e){}
+}
+
+// 保存済みの cfg / selectedTimes をS0画面のチップ表示に反映する
+function syncConfigUI(){
+  document.querySelectorAll('#s0 .chip-group .chip').forEach(b=>{
+    const oc=b.getAttribute('onclick')||'';
+    b.classList.remove('on');
+    if(oc.includes(`sel('count',${cfg.count},`)) b.classList.add('on');
+    if(oc.includes(`sel('cat','${cfg.cat}',`)) b.classList.add('on');
+    if(oc.includes(`sel('diff','${cfg.diff}',`)) b.classList.add('on');
+    if(oc.includes(`sel('disp','${cfg.disp}',`)) b.classList.add('on');
+  });
+  updateTimeDisplay();
+}
+
+// 「前回の続きから再開しました」という通知を一時的に表示する
+function showRestoreToast(){
+  const t=document.createElement('div');
+  t.className='restore-toast';
+  t.innerHTML='<i class="ti ti-rotate-clockwise" aria-hidden="true"></i> 前回の続きから再開しました';
+  document.body.appendChild(t);
+  requestAnimationFrame(()=>t.classList.add('show'));
+  setTimeout(()=>{
+    t.classList.remove('show');
+    setTimeout(()=>t.remove(),400);
+  },2800);
+}
+
+// 保持タイマーを、保存されていた残り時間から再開する
+function resumeTimer(){
+  const r=rounds[currentRoundIdx];
+  const totalSec=r.time;
+  const prevSec=currentRoundIdx>0?rounds[currentRoundIdx-1].time:0;
+  const waitSec=totalSec-prevSec;
+  document.getElementById('pb2').innerHTML=pbar('保持');
+  document.getElementById('timerRoundLabel').textContent=`第${currentRoundIdx+1}回目 保持中（${TIME_LABELS[r.time]}）`;
+  document.getElementById('timerSubLabel').textContent=`あと${TIME_LABELS[waitSec]}で再生開始`;
+  if(timerInt)clearInterval(timerInt);
+  if(!timerEnd || timerEnd<=Date.now()){
+    document.getElementById('recallBtnRow').style.display='flex';
+    document.getElementById('timerDisp').textContent='00:00';
+    return;
+  }
+  document.getElementById('recallBtnRow').style.display='none';
+  timerInt=setInterval(()=>{
+    const rem=Math.max(0,timerEnd-Date.now());
+    const m=Math.floor(rem/60000),s=Math.floor((rem%60000)/1000);
+    document.getElementById('timerDisp').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    if(rem<=0){
+      clearInterval(timerInt);
+      document.getElementById('recallBtnRow').style.display='flex';
+      document.getElementById('timerDisp').textContent='00:00';
+    }
+  },500);
+}
+
+// 答え合わせ画面(s4)の見た目を、保存済みのスコアから復元する
+function restoreEvalState(){
+  const ri=currentRoundIdx;
+  words.forEach((w,i)=>{
+    const s=rounds[ri].scores[w.w];
+    if(!s) return;
+    if(s.hintCat) showHintCat(i);
+    if(s.hintHead) showHintHead(i);
+    if(s.result!=='miss'){
+      const orig=s.result;
+      revealWord(i);
+      markWord(i, orig==='recog_fail' ? 'miss' : 'free');
+      rounds[ri].scores[w.w].result=orig; // markWordで上書きされた結果を元の値に戻す
+      if(orig==='cat'||orig==='head'||orig==='recog'||orig==='recog_fail'){
+        document.getElementById('ehn'+i).disabled=true;
+      }
+    }
+  });
+}
+
+// ページ読み込み時に、保存済みの途中状態があれば復元する
+function restoreSession(){
+  let data=null;
+  try{ data=JSON.parse(localStorage.getItem(SESSION_KEY)); }catch(e){}
+  if(!data || !data.words || !data.words.length || !data.rounds || !data.rounds.length){
+    clearSession();
+    return;
+  }
+  cfg=data.cfg||cfg;
+  selectedTimes=data.selectedTimes||[];
+  words=data.words;
+  rounds=data.rounds;
+  currentRoundIdx=data.currentRoundIdx||0;
+  timerEnd=data.timerEnd||null;
+
+  syncConfigUI();
+
+  switch(data.screen){
+    case 's1':
+      document.getElementById('pb1').innerHTML=pbar('記銘');
+      document.getElementById('learnGrid').innerHTML=words.map(w=>wcard(w,false)).join('');
+      setScreen('s1');
+      break;
+    case 's2':
+      document.getElementById('maskGrid').innerHTML=words.map(w=>wcard(w,true)).join('');
+      resumeTimer();
+      setScreen('s2');
+      break;
+    case 's4':
+      goToEval();
+      restoreEvalState();
+      break;
+    case 's6':
+      goToRecog();
+      break;
+    default:
+      clearSession();
+      return;
+  }
+  showRestoreToast();
+}
+
 function restart(){
   clearInterval(timerInt);
   words=[];rounds=[];currentRoundIdx=0;
+  clearSession();
   renderHistory();
   setScreen('s0');
 }
 </script>
-<script>renderHistory();</script>
+<script>
+renderHistory();
+restoreSession();
+// バックグラウンド移行時にも進行状況を保存しておく（安全対策）
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='hidden') saveSession();
+});
+window.addEventListener('pagehide',saveSession);
+</script>
 
 <script>
 if ('serviceWorker' in navigator) {
