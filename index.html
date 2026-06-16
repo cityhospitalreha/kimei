@@ -18,28 +18,16 @@
 
 <style>
 :root{
-  --color-background-primary:#ffffff;
-  --color-background-secondary:#f5f5f5;
-  --color-text-primary:#1a1a1a;
-  --color-text-secondary:#6b6b6b;
-  --color-text-tertiary:#9b9b9b;
-  --color-border-primary:#e0e0e0;
-  --color-border-secondary:#d0d0d0;
-  --color-border-tertiary:#e8e8e8;
+  --color-background-primary:#1a1a1a;
+  --color-background-secondary:#252525;
+  --color-text-primary:#f0f0f0;
+  --color-text-secondary:#a8a8a8;
+  --color-text-tertiary:#686868;
+  --color-border-primary:#3a3a3a;
+  --color-border-secondary:#464646;
+  --color-border-tertiary:#2e2e2e;
   --border-radius-md:8px;
   --border-radius-lg:12px;
-}
-@media (prefers-color-scheme: dark){
-  :root{
-    --color-background-primary:#1e1e1e;
-    --color-background-secondary:#2a2a2a;
-    --color-text-primary:#f0f0f0;
-    --color-text-secondary:#a0a0a0;
-    --color-text-tertiary:#777777;
-    --color-border-primary:#3a3a3a;
-    --color-border-secondary:#444444;
-    --color-border-tertiary:#333333;
-  }
 }
 body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;background:var(--color-background-primary);color:var(--color-text-primary);font-size:17px;}
 
@@ -59,17 +47,17 @@ body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto
 .chip-group{display:flex;gap:6px;flex-wrap:wrap}
 .chip{padding:9px 18px;border-radius:22px;border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:16px;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
 .chip:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
-.chip.on{background:#E1F5EE;border-color:#1d9e75;color:#085041;font-weight:600}
+.chip.on{background:#0d3a2e;border-color:#1d9e75;color:#4ecfa0;font-weight:600}
 
 .time-chip-group{display:flex;gap:6px;flex-wrap:wrap}
 .time-chip{padding:9px 18px;border-radius:22px;border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:16px;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:4px}
 .time-chip:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
-.time-chip.on{background:#E6F1FB;border-color:#185FA5;color:#0C447C;font-weight:600}
-.time-chip .order-badge{display:none;font-size:13px;background:#185FA5;color:#fff;border-radius:10px;padding:2px 7px;font-weight:600}
+.time-chip.on{background:#0e2440;border-color:#3a7fd5;color:#6baaee;font-weight:600}
+.time-chip .order-badge{display:none;font-size:13px;background:#3a7fd5;color:#fff;border-radius:10px;padding:2px 7px;font-weight:600}
 .time-chip.on .order-badge{display:inline}
 
 .timing-preview{display:flex;align-items:center;gap:6px;margin-top:10px;flex-wrap:wrap;min-height:24px}
-.timing-preview .tp-item{font-size:14px;padding:4px 12px;border-radius:20px;background:#E6F1FB;color:#0C447C;display:flex;align-items:center;gap:4px}
+.timing-preview .tp-item{font-size:14px;padding:4px 12px;border-radius:20px;background:#0e2440;color:#6baaee;display:flex;align-items:center;gap:4px}
 .timing-preview .tp-arrow{font-size:14px;color:var(--color-text-tertiary)}
 
 .word-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:1rem 0}
@@ -85,7 +73,7 @@ body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto
 .timer-num{font-size:46px;font-weight:600;color:#1d9e75;font-variant-numeric:tabular-nums;min-width:120px}
 
 .round-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:.5rem}
-.round-badge{font-size:14px;padding:5px 14px;border-radius:20px;background:#E6F1FB;color:#0C447C;font-weight:600}
+.round-badge{font-size:14px;padding:5px 14px;border-radius:20px;background:#0e2440;color:#6baaee;font-weight:600}
 
 .btn{display:inline-flex;align-items:center;gap:6px;padding:12px 22px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;cursor:pointer;font-size:17px;color:var(--color-text-primary);transition:all .15s}
 .btn:hover{background:var(--color-background-secondary)}
@@ -107,24 +95,24 @@ body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto
 .eval-btns{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
 .eval-btn{padding:9px 15px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:15px;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
 .eval-btn:hover{background:var(--color-background-secondary)}
-.eval-btn.yes{background:#E1F5EE;border-color:#1d9e75;color:#085041;font-weight:500}
-.eval-btn.no{background:#FCEBEB;border-color:#E24B4A;color:#791F1F;font-weight:500}
-.eval-btn.hint-active{background:#E6F1FB;border-color:#185FA5;color:#0C447C;font-weight:500}
+.eval-btn.yes{background:#0d3a2e;border-color:#1d9e75;color:#4ecfa0;font-weight:500}
+.eval-btn.no{background:#3a1418;border-color:#e04a5a;color:#f07080;font-weight:500}
+.eval-btn.hint-active{background:#0e2440;border-color:#3a7fd5;color:#6baaee;font-weight:500}
 .eval-hint-area{width:100%;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:8px 10px;margin-top:4px;display:none;flex-direction:column;gap:6px}
 .eval-hint-area.open{display:flex}
 .hint-chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
 .hint-chip{padding:8px 16px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:15px;color:var(--color-text-secondary);transition:all .15s}
-.hint-chip:hover{border-color:#185FA5;color:#185FA5}
-.hint-chip.used{background:#E6F1FB;border-color:#185FA5;color:#0C447C}
-.hint-result{font-size:16px;color:#0C447C;background:#E6F1FB;border-radius:var(--border-radius-md);padding:7px 12px;text-align:center;display:none}
-.hint-ok-btn{padding:9px 18px;border-radius:var(--border-radius-md);border:0.5px solid #1d9e75;background:#E1F5EE;cursor:pointer;font-size:15px;color:#085041;font-weight:600;}
-.hint-recog-btn{padding:9px 18px;border-radius:var(--border-radius-md);border:0.5px solid #185FA5;background:#E6F1FB;cursor:pointer;font-size:15px;color:#0C447C;font-weight:600;}
+.hint-chip:hover{border-color:#3a7fd5;color:#6baaee}
+.hint-chip.used{background:#0e2440;border-color:#3a7fd5;color:#6baaee}
+.hint-result{font-size:16px;color:#6baaee;background:#0e2440;border-radius:var(--border-radius-md);padding:7px 12px;text-align:center;display:none}
+.hint-ok-btn{padding:9px 18px;border-radius:var(--border-radius-md);border:0.5px solid #1d9e75;background:#0d3a2e;cursor:pointer;font-size:15px;color:#4ecfa0;font-weight:600;}
+.hint-recog-btn{padding:9px 18px;border-radius:var(--border-radius-md);border:0.5px solid #3a7fd5;background:#0e2440;cursor:pointer;font-size:15px;color:#6baaee;font-weight:600;}
 
 .hint-item{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:.75rem 1rem;margin-bottom:8px}
 .hint-item.resolved{opacity:.5}
 .hint-cat{font-size:12px;color:var(--color-text-secondary);margin-bottom:6px}
 .hint-btns{display:flex;gap:6px;flex-wrap:wrap}
-.hint-text{font-size:13px;color:#185FA5;margin-top:6px;padding:6px 10px;background:#E6F1FB;border-radius:var(--border-radius-md)}
+.hint-text{font-size:13px;color:#6baaee;margin-top:6px;padding:6px 10px;background:#0e2440;border-radius:var(--border-radius-md)}
 
 .recog-item{padding:12px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
 .recog-item:last-child{border-bottom:none}
@@ -132,8 +120,8 @@ body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto
 .recog-choices{display:flex;gap:8px;flex-wrap:wrap}
 .rchoice{padding:10px 18px;border-radius:22px;border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:16px;transition:all .15s}
 .rchoice:hover{background:var(--color-background-secondary)}
-.rchoice.correct{background:#E1F5EE;border-color:#1d9e75;color:#085041;font-weight:500}
-.rchoice.wrong{background:#FCEBEB;border-color:#E24B4A;color:#791F1F}
+.rchoice.correct{background:#0d3a2e;border-color:#1d9e75;color:#4ecfa0;font-weight:500}
+.rchoice.wrong{background:#3a1418;border-color:#e04a5a;color:#f07080}
 
 .result-rounds{display:flex;flex-direction:column;gap:.75rem;margin-bottom:.75rem}
 .result-round-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden}
@@ -142,10 +130,10 @@ body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto
 .result-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:17px}
 .result-row:last-child{border-bottom:none}
 .badge{display:inline-flex;align-items:center;gap:3px;padding:4px 12px;border-radius:20px;font-size:14px;font-weight:600}
-.b-green{background:#E1F5EE;color:#085041}
-.b-blue{background:#E6F1FB;color:#0C447C}
-.b-amber{background:#FAEEDA;color:#633806}
-.b-red{background:#FCEBEB;color:#791F1F}
+.b-green{background:#0d3a2e;color:#4ecfa0}
+.b-blue{background:#0e2440;color:#6baaee}
+.b-amber{background:#3a2608;color:#e8a54a}
+.b-red{background:#3a1418;color:#f07080}
 .b-gray{background:var(--color-background-secondary);color:var(--color-text-secondary)}
 
 .summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:.75rem}
@@ -176,7 +164,7 @@ body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto
 
 /* 途中終了ボタン */
 .btn-quit{background:transparent;color:var(--color-text-tertiary);border-color:var(--color-border-tertiary);font-size:15px}
-.btn-quit:hover{background:#FCEBEB;color:#791F1F;border-color:#E24B4A}
+.btn-quit:hover{background:#3a1418;color:#f07080;border-color:#e04a5a}
 
 /* 確認ダイアログ */
 .quit-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9000;align-items:center;justify-content:center}
@@ -325,7 +313,7 @@ body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto
 <div class="screen" id="s7">
   <div class="phase-bar" id="pb7"></div>
   <div class="summary-grid" id="summaryGrid"></div>
-  <div id="savedBadge" style="display:none;font-size:12px;color:#085041;background:#E1F5EE;border-radius:20px;padding:4px 12px;display:inline-flex;align-items:center;gap:4px;margin-bottom:.5rem">
+  <div id="savedBadge" style="display:none;font-size:12px;color:#4ecfa0;background:#0d3a2e;border-radius:20px;padding:4px 12px;display:inline-flex;align-items:center;gap:4px;margin-bottom:.5rem">
     <i class="ti ti-device-floppy" aria-hidden="true"></i> 記録を保存しました
   </div>
   <div class="result-rounds" id="resultRounds"></div>
@@ -721,13 +709,13 @@ function pickRecogInline(i,target,chosen,btn){
   ha.querySelectorAll('.hint-chip').forEach(b=>{b.onclick=null;b.disabled=true;});
   if(chosen===target){
     btn.classList.add('used');
-    btn.style.cssText='background:#E1F5EE;border-color:#1d9e75;color:#085041;font-weight:500';
+    btn.style.cssText='background:#0d3a2e;border-color:#1d9e75;color:#4ecfa0;font-weight:500';
     rounds[ri].scores[target].result='recog';
     revealWord(i);
     document.getElementById('ey'+i).className='eval-btn yes';
   } else {
-    btn.style.cssText='background:#FCEBEB;border-color:#E24B4A;color:#791F1F';
-    ha.querySelectorAll('.hint-chip').forEach(b=>{if(b.textContent===target)b.style.cssText='background:#E1F5EE;border-color:#1d9e75;color:#085041;font-weight:500';});
+    btn.style.cssText='background:#3a1418;border-color:#e04a5a;color:#f07080';
+    ha.querySelectorAll('.hint-chip').forEach(b=>{if(b.textContent===target)b.style.cssText='background:#0d3a2e;border-color:#1d9e75;color:#4ecfa0;font-weight:500';});
     rounds[ri].scores[target].result='recog_fail';
     revealWord(i);
     document.getElementById('en'+i).className='eval-btn no';
@@ -801,9 +789,9 @@ function buildResult(){
   });
   const tot=words.length*rounds.length;
   document.getElementById('summaryGrid').innerHTML=`
-    <div class="scard"><div class="scard-n" style="color:#085041">${totalFree}</div><div class="scard-l">自由再生（延べ）</div></div>
-    <div class="scard"><div class="scard-n" style="color:#0C447C">${totalCue}</div><div class="scard-l">cue再生（延べ）</div></div>
-    <div class="scard"><div class="scard-n" style="color:#633806">${totalRecog}</div><div class="scard-l">再認成功（延べ）</div></div>`;
+    <div class="scard"><div class="scard-n" style="color:#4ecfa0">${totalFree}</div><div class="scard-l">自由再生（延べ）</div></div>
+    <div class="scard"><div class="scard-n" style="color:#6baaee">${totalCue}</div><div class="scard-l">cue再生（延べ）</div></div>
+    <div class="scard"><div class="scard-n" style="color:#e8a54a">${totalRecog}</div><div class="scard-l">再認成功（延べ）</div></div>`;
   const se=cfg.disp!=='text',st=cfg.disp!=='emoji';
   document.getElementById('resultRounds').innerHTML=rounds.map((r,ri)=>{
     let f=0,c=0,rec=0,rf=0;
@@ -881,15 +869,15 @@ function renderHistory(){
     <div class="hist-panel">
       <div class="hist-title">過去の成績</div>
       <div class="hist-stats">
-        <div class="hist-stat"><div class="hist-stat-n" style="color:#085041">${avgFree}%</div><div class="hist-stat-l">平均自由再生率</div></div>
-        <div class="hist-stat"><div class="hist-stat-n" style="color:#0C447C">${avgAny}%</div><div class="hist-stat-l">平均想起率</div></div>
-        <div class="hist-stat"><div class="hist-stat-n" style="color:#633806">${best}%</div><div class="hist-stat-l">自由再生 最高</div></div>
+        <div class="hist-stat"><div class="hist-stat-n" style="color:#4ecfa0">${avgFree}%</div><div class="hist-stat-l">平均自由再生率</div></div>
+        <div class="hist-stat"><div class="hist-stat-n" style="color:#6baaee">${avgAny}%</div><div class="hist-stat-l">平均想起率</div></div>
+        <div class="hist-stat"><div class="hist-stat-n" style="color:#e8a54a">${best}%</div><div class="hist-stat-l">自由再生 最高</div></div>
       </div>
       <div class="hist-list">
         ${records.map(r=>{
           const catLabel={'random':'ランダム','food':'食べ物','animal':'動物','daily':'日用品','furniture':'家具','vehicle':'乗り物','body':'身体部位','hospital':'病院'};
           const cfg_str = `${r.cfg.count}語・${catLabel[r.cfg.cat]||r.cfg.cat}・${r.cfg.times}`;
-          const col = r.freeRate>=70?'#085041':r.freeRate>=40?'#0C447C':'#791F1F';
+          const col = r.freeRate>=70?'#4ecfa0':r.freeRate>=40?'#6baaee':'#f07080';
           return`<div class="hist-row">
             <span class="hist-row-date">${r.date}</span>
             <span class="hist-row-cfg">${cfg_str}</span>
