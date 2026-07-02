@@ -29,7 +29,7 @@
   --border-radius-md:8px;
   --border-radius-lg:12px;
 }
-body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;background:var(--color-background-primary);color:var(--color-text-primary);font-size:17px;}
+body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;background:var(--color-background-primary);color:var(--color-text-primary);font-size:19px;}
 
 *{box-sizing:border-box;margin:0;padding:0}
 .app{padding:1rem 0;max-width:640px;margin:0 auto}
@@ -39,18 +39,18 @@ body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto
 .phase-dot{width:8px;height:8px;border-radius:50%;background:var(--color-border-tertiary);flex-shrink:0;transition:background .2s}
 .phase-dot.done{background:#1d9e75}
 .phase-dot.active{background:#1d9e75;width:24px;border-radius:4px}
-.phase-label{font-size:15px;color:var(--color-text-secondary)}
+.phase-label{font-size:16px;color:var(--color-text-secondary)}
 
 .section-title{font-size:13px;font-weight:600;letter-spacing:.08em;color:var(--color-text-tertiary);margin-bottom:8px;text-transform:uppercase}
 .card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:.75rem}
 
 .chip-group{display:flex;gap:6px;flex-wrap:wrap}
-.chip{padding:9px 18px;border-radius:22px;border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:16px;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
+.chip{padding:9px 18px;border-radius:22px;border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:18px;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
 .chip:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
 .chip.on{background:#0d3a2e;border-color:#1d9e75;color:#4ecfa0;font-weight:600}
 
 .time-chip-group{display:flex;gap:6px;flex-wrap:wrap}
-.time-chip{padding:9px 18px;border-radius:22px;border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:16px;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:4px}
+.time-chip{padding:9px 18px;border-radius:22px;border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:18px;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:4px}
 .time-chip:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
 .time-chip.on{background:#0e2440;border-color:#3a7fd5;color:#6baaee;font-weight:600}
 .time-chip .order-badge{display:none;font-size:13px;background:#3a7fd5;color:#fff;border-radius:10px;padding:2px 7px;font-weight:600}
@@ -64,7 +64,7 @@ body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto
 .wcard{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem 1rem;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
 .wcard .em{font-size:64px;line-height:1}
 /* wimg-wrap/wimg: spriteDiv側でインラインstyle制御 */
-.wcard .lbl{font-size:24px;font-weight:600;color:var(--color-text-primary)}
+.wcard .lbl{font-size:27px;font-weight:600;color:var(--color-text-primary)}
 .wcard.masked .em,.wcard.masked .lbl,.wcard.masked .wimg-wrap{display:none}
 .wcard .mbox{width:110px;height:110px;background:var(--color-border-tertiary);border-radius:var(--border-radius-md);display:none}
 .wcard.masked .mbox{display:block}
@@ -75,7 +75,7 @@ body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto
 .round-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:.5rem}
 .round-badge{font-size:14px;padding:5px 14px;border-radius:20px;background:#0e2440;color:#6baaee;font-weight:600}
 
-.btn{display:inline-flex;align-items:center;gap:6px;padding:12px 22px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;cursor:pointer;font-size:17px;color:var(--color-text-primary);transition:all .15s}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:12px 22px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;cursor:pointer;font-size:19px;color:var(--color-text-primary);transition:all .15s}
 .btn:hover{background:var(--color-background-secondary)}
 .btn:active{transform:scale(.98)}
 .btn-primary{background:#1d9e75;color:#fff;border-color:#1d9e75}
@@ -90,10 +90,10 @@ body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto
 .eval-thumb .wimg-wrap{width:130px;height:130px;overflow:hidden;border-radius:8px;}
 .eval-thumb .wimg{width:130px;height:130px;background-repeat:no-repeat;}
 .eval-thumb-masked{width:100px;height:100px;background:var(--color-border-tertiary);border-radius:var(--border-radius-md);display:flex;align-items:center;justify-content:center;font-size:40px;color:var(--color-text-tertiary);}
-.eval-word{font-size:20px;font-weight:600;text-align:center;color:var(--color-text-primary);}.eval-word:not(.revealed){display:none;}
+.eval-word{font-size:23px;font-weight:600;text-align:center;color:var(--color-text-primary);}.eval-word:not(.revealed){display:none;}
 .eval-word.revealed{color:var(--color-text-primary);text-decoration:none;cursor:default}
 .eval-btns{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
-.eval-btn{padding:9px 15px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:15px;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
+.eval-btn{padding:9px 15px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:17px;color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
 .eval-btn:hover{background:var(--color-background-secondary)}
 .eval-btn.yes{background:#0d3a2e;border-color:#1d9e75;color:#4ecfa0;font-weight:500}
 .eval-btn.no{background:#3a1418;border-color:#e04a5a;color:#f07080;font-weight:500}
@@ -101,12 +101,12 @@ body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto
 .eval-hint-area{width:100%;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:8px 10px;margin-top:4px;display:none;flex-direction:column;gap:6px}
 .eval-hint-area.open{display:flex}
 .hint-chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
-.hint-chip{padding:8px 16px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:15px;color:var(--color-text-secondary);transition:all .15s}
+.hint-chip{padding:8px 16px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:17px;color:var(--color-text-secondary);transition:all .15s}
 .hint-chip:hover{border-color:#3a7fd5;color:#6baaee}
 .hint-chip.used{background:#0e2440;border-color:#3a7fd5;color:#6baaee}
-.hint-result{font-size:16px;color:#6baaee;background:#0e2440;border-radius:var(--border-radius-md);padding:7px 12px;text-align:center;display:none}
-.hint-ok-btn{padding:9px 18px;border-radius:var(--border-radius-md);border:0.5px solid #1d9e75;background:#0d3a2e;cursor:pointer;font-size:15px;color:#4ecfa0;font-weight:600;}
-.hint-recog-btn{padding:9px 18px;border-radius:var(--border-radius-md);border:0.5px solid #3a7fd5;background:#0e2440;cursor:pointer;font-size:15px;color:#6baaee;font-weight:600;}
+.hint-result{font-size:17px;color:#6baaee;background:#0e2440;border-radius:var(--border-radius-md);padding:7px 12px;text-align:center;display:none}
+.hint-ok-btn{padding:9px 18px;border-radius:var(--border-radius-md);border:0.5px solid #1d9e75;background:#0d3a2e;cursor:pointer;font-size:17px;color:#4ecfa0;font-weight:600;}
+.hint-recog-btn{padding:9px 18px;border-radius:var(--border-radius-md);border:0.5px solid #3a7fd5;background:#0e2440;cursor:pointer;font-size:17px;color:#6baaee;font-weight:600;}
 
 .hint-item{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:.75rem 1rem;margin-bottom:8px}
 .hint-item.resolved{opacity:.5}
@@ -116,9 +116,9 @@ body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto
 
 .recog-item{padding:12px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
 .recog-item:last-child{border-bottom:none}
-.recog-q{font-size:16px;font-weight:500;color:var(--color-text-secondary);margin-bottom:10px}
+.recog-q{font-size:18px;font-weight:500;color:var(--color-text-secondary);margin-bottom:10px}
 .recog-choices{display:flex;gap:8px;flex-wrap:wrap}
-.rchoice{padding:10px 18px;border-radius:22px;border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:16px;transition:all .15s}
+.rchoice{padding:10px 18px;border-radius:22px;border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;font-size:18px;transition:all .15s}
 .rchoice:hover{background:var(--color-background-secondary)}
 .rchoice.correct{background:#0d3a2e;border-color:#1d9e75;color:#4ecfa0;font-weight:500}
 .rchoice.wrong{background:#3a1418;border-color:#e04a5a;color:#f07080}
@@ -204,6 +204,7 @@ body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto
   <div class="card">
     <div class="section-title">保持時間（複数選択可・順番に確認）</div>
     <div class="time-chip-group" id="tcg">
+      <button class="time-chip" onclick="toggleTime(0,this)"><span class="order-badge" id="ob0"></span>即時</button>
       <button class="time-chip" onclick="toggleTime(30,this)"><span class="order-badge" id="ob30"></span>30秒</button>
       <button class="time-chip" onclick="toggleTime(60,this)"><span class="order-badge" id="ob60"></span>1分</button>
       <button class="time-chip" onclick="toggleTime(180,this)"><span class="order-badge" id="ob180"></span>3分</button>
@@ -221,7 +222,7 @@ body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto
       <button class="chip" onclick="sel('cat','food',this)">食べ物</button>
       <button class="chip" onclick="sel('cat','animal',this)">動物</button>
       <button class="chip" onclick="sel('cat','daily',this)">日用品</button>
-      <button class="chip" onclick="sel('cat','furniture',this)">家具</button>
+      <button class="chip" onclick="sel('cat','furniture',this)">家</button>
       <button class="chip" onclick="sel('cat','vehicle',this)">乗り物</button>
       <button class="chip" onclick="sel('cat','body',this)">身体部位</button>
       <button class="chip" onclick="sel('cat','hospital',this)">病院</button>
@@ -368,14 +369,14 @@ const DB={
     {img:{src:'IMG_DAILY',col:3,row:1,cw:352,ch:384,iw:1408,ih:768},e:'🔑',w:'かぎ',cat:'日用品',h:'か'}
   ],
   furniture:[
-    {img:{src:'IMG_FURNITURE',col:0,row:0,cw:352,ch:384,iw:1408,ih:768},e:'🪑',w:'いす',cat:'家具',h:'い'},
-    {img:{src:'IMG_FURNITURE',col:1,row:0,cw:352,ch:384,iw:1408,ih:768},e:'🛏️',w:'ベッド',cat:'家具',h:'ベ'},
-    {img:{src:'IMG_FURNITURE',col:2,row:0,cw:352,ch:384,iw:1408,ih:768},e:'🪟',w:'まど',cat:'家具',h:'ま'},
-    {img:{src:'IMG_FURNITURE',col:3,row:0,cw:352,ch:384,iw:1408,ih:768},e:'🚪',w:'ドア',cat:'家具',h:'ド'},
-    {img:{src:'IMG_FURNITURE',col:0,row:1,cw:352,ch:384,iw:1408,ih:768},e:'🛋️',w:'ソファ',cat:'家具',h:'ソ'},
-    {img:{src:'IMG_FURNITURE',col:1,row:1,cw:352,ch:384,iw:1408,ih:768},e:'📺',w:'テレビ',cat:'家具',h:'テ'},
-    {img:{src:'IMG_FURNITURE',col:2,row:1,cw:352,ch:384,iw:1408,ih:768},e:'💡',w:'でんき',cat:'家具',h:'で'},
-    {img:{src:'IMG_FURNITURE',col:3,row:1,cw:352,ch:384,iw:1408,ih:768},e:'🪴',w:'うえき',cat:'家具',h:'う'}
+    {img:{src:'IMG_FURNITURE',col:0,row:0,cw:352,ch:384,iw:1408,ih:768},e:'🪑',w:'いす',cat:'家',h:'い'},
+    {img:{src:'IMG_FURNITURE',col:1,row:0,cw:352,ch:384,iw:1408,ih:768},e:'🛏️',w:'ベッド',cat:'家',h:'ベ'},
+    {img:{src:'IMG_FURNITURE',col:2,row:0,cw:352,ch:384,iw:1408,ih:768},e:'🪟',w:'まど',cat:'家',h:'ま'},
+    {img:{src:'IMG_FURNITURE',col:3,row:0,cw:352,ch:384,iw:1408,ih:768},e:'🚪',w:'ドア',cat:'家',h:'ド'},
+    {img:{src:'IMG_FURNITURE',col:0,row:1,cw:352,ch:384,iw:1408,ih:768},e:'🛋️',w:'ソファ',cat:'家',h:'ソ'},
+    {img:{src:'IMG_FURNITURE',col:1,row:1,cw:352,ch:384,iw:1408,ih:768},e:'📺',w:'テレビ',cat:'家',h:'テ'},
+    {img:{src:'IMG_FURNITURE',col:2,row:1,cw:352,ch:384,iw:1408,ih:768},e:'💡',w:'でんき',cat:'家',h:'で'},
+    {img:{src:'IMG_FURNITURE',col:3,row:1,cw:352,ch:384,iw:1408,ih:768},e:'🪴',w:'うえき',cat:'家',h:'う'}
   ],
   vehicle:[
     {img:{src:'IMG_VEHICLE',col:0,row:0,cw:352,ch:384,iw:1408,ih:768},e:'🚗',w:'くるま',cat:'乗り物',h:'く'},
@@ -409,7 +410,7 @@ const DB={
   ]
 };
 const ALL=Object.values(DB).flat();
-const TIME_LABELS={30:'30秒',60:'1分',180:'3分',300:'5分',600:'10分',1800:'30分',3600:'1時間'};
+const TIME_LABELS={0:'即時',30:'30秒',60:'1分',180:'3分',300:'5分',600:'10分',1800:'30分',3600:'1時間'};
 
 let cfg={count:3,cat:'random',diff:'easy',disp:'both'};
 let selectedTimes=[];
@@ -527,7 +528,7 @@ function startNextTimer(){
   const waitSec=totalSec-prevSec;
   document.getElementById('pb2').innerHTML=pbar('保持');
   document.getElementById('timerRoundLabel').textContent=`第${currentRoundIdx+1}回目 保持中（${TIME_LABELS[r.time]}）`;
-  document.getElementById('timerSubLabel').textContent=`あと${TIME_LABELS[waitSec]}で再生開始`;
+  document.getElementById('timerSubLabel').textContent=waitSec<=0?'まもなく再生を開始します':`あと${TIME_LABELS[waitSec]}で再生開始`;
   document.getElementById('recallBtnRow').style.display='none';
   document.getElementById('quitBtnRowS2').style.display='flex';
   if(timerInt)clearInterval(timerInt);
@@ -626,6 +627,8 @@ function toggleHint(i){
   const isOpen=ha.classList.contains('open');
   ha.classList.toggle('open',!isOpen);
   hb.classList.toggle('hint-active',!isOpen);
+  // ヒントを見る前でも「再認へ」に進めるよう、開いた時点で行動ボタンを表示
+  if(!isOpen) updateHintActions(i);
 }
 
 function updateHintActions(i){
@@ -633,10 +636,8 @@ function updateHintActions(i){
   const s=rounds[ri].scores[words[i].w];
   const actRow=document.getElementById('hact'+i);
   actRow.style.display='flex';
-  // 両方使ったら再認ボタンも表示
-  if(s.hintCat&&s.hintHead){
-    document.getElementById('hrecog'+i).style.display='block';
-  }
+  // ヒント提示前でも再認へ進めるよう常に表示
+  document.getElementById('hrecog'+i).style.display='block';
 }
 
 function showHintCat(i){
@@ -676,7 +677,7 @@ function hintOkInline(i){
   const w=words[i];
   const ri=currentRoundIdx;
   const s=rounds[ri].scores[w.w];
-  s.result=s.hintHead?'head':'cat';
+  s.result=s.hintHead?'head':(s.hintCat?'cat':'free');
   revealWord(i);
   document.getElementById('ey'+i).className='eval-btn yes';
   document.getElementById('en'+i).className='eval-btn';
@@ -875,7 +876,7 @@ function renderHistory(){
       </div>
       <div class="hist-list">
         ${records.map(r=>{
-          const catLabel={'random':'ランダム','food':'食べ物','animal':'動物','daily':'日用品','furniture':'家具','vehicle':'乗り物','body':'身体部位','hospital':'病院'};
+          const catLabel={'random':'ランダム','food':'食べ物','animal':'動物','daily':'日用品','furniture':'家','vehicle':'乗り物','body':'身体部位','hospital':'病院'};
           const cfg_str = `${r.cfg.count}語・${catLabel[r.cfg.cat]||r.cfg.cat}・${r.cfg.times}`;
           const col = r.freeRate>=70?'#4ecfa0':r.freeRate>=40?'#6baaee':'#f07080';
           return`<div class="hist-row">
@@ -950,7 +951,7 @@ function resumeTimer(){
   const waitSec=totalSec-prevSec;
   document.getElementById('pb2').innerHTML=pbar('保持');
   document.getElementById('timerRoundLabel').textContent=`第${currentRoundIdx+1}回目 保持中（${TIME_LABELS[r.time]}）`;
-  document.getElementById('timerSubLabel').textContent=`あと${TIME_LABELS[waitSec]}で再生開始`;
+  document.getElementById('timerSubLabel').textContent=waitSec<=0?'まもなく再生を開始します':`あと${TIME_LABELS[waitSec]}で再生開始`;
   if(timerInt)clearInterval(timerInt);
   if(!timerEnd || timerEnd<=Date.now()){
     document.getElementById('recallBtnRow').style.display='flex';
